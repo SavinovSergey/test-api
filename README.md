@@ -11,3 +11,7 @@ CRUD-сервис для управления задачами. FastAPI + Docker
 
 
 Документация: http://localhost:8000/docs
+
+## Живой сервис
+
+Документация и swagger: https://79-174-90-158.nip.io/docs
