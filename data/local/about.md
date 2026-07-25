@@ -2,7 +2,7 @@
 
 This is a study assistant for the Classic ML cycle (weeks 7-10) of the
 mentoring program. The corpus contains the official documentation of
-scikit-learn for three core topics covered in the course.
+scikit-learn for the core topics covered in the course.
 
 ## What topics I can answer questions about
 
@@ -12,14 +12,26 @@ scikit-learn for three core topics covered in the course.
   and entropy criteria, pruning, practical tuning tips.
 - **Metrics**: confusion matrix, accuracy, precision, recall, F1,
   ROC AUC, log-loss, MSE, MAE, R², multiclass averaging.
+- **Ensembles**: bagging, random forests, AdaBoost, gradient boosting,
+  voting and stacking classifiers/regressors, when ensembles help.
+- **Cross-validation**: K-Fold, StratifiedKFold, ShuffleSplit,
+  leave-one-out, nested CV, scoring with `cross_val_score`.
+- **Preprocessing**: scaling (StandardScaler, MinMaxScaler, RobustScaler),
+  encoding (OneHotEncoder, OrdinalEncoder), polynomial features,
+  normalization and power transforms.
+- **Pipelines & composition**: `Pipeline`, `FeatureUnion`,
+  `ColumnTransformer`, chaining preprocessors with estimators.
+- **Model selection / grid search**: `GridSearchCV`, `RandomizedSearchCV`,
+  parameter grids, refitting the best estimator, search over pipelines.
+- **Imputation**: missing-value strategies with `SimpleImputer`,
+  `IterativeImputer`, `KNNImputer`, indicator for missingness.
+- **Feature selection**: variance threshold, univariate filters
+  (`SelectKBest`), recursive feature elimination (RFE),
+  model-based selection (`SelectFromModel`).
 
 I respond in the same language as your question — English or Russian.
 
 ## What I CANNOT answer
-
-The default corpus does NOT cover ensembles, cross-validation,
-preprocessing, pipelines, grid search, imputers, or feature selection.
-Adding those is an optional homework.
 
 Out of scope entirely: deep learning, transformers, embeddings,
 agents, time-series libraries, recommendation systems, computer vision,
