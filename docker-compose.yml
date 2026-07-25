@@ -2,28 +2,23 @@ networks:
   mentoring-net:
     name: mentoring-net
     # На VPS сеть уже создана (общая для mentoring-сервисов).
-    # Compose не должен пытаться создать её заново.
     external: true
 
 services:
-  app:                              # имя сервиса — то же, что в deploy.yml (compose pull/up api)
+  app:
     build: .                        # локально: docker compose build
-    # На VPS pull берёт этот тег из GHCR (его же пушит CI).
-    image: test-api:latest
-    container_name: task-api        # фиксированное имя контейнера, чтобы было удобно адресовать в docker logs/stop
-
+    # CI пушит этот тег в GHCR; на VPS: docker compose pull app
+    image: ghcr.io/savinovsergey/test-api:latest
+    container_name: task-api
     ports:
-      - "8000:8000"                 # слева — порт ноутбука, справа — порт внутри контейнера. Кавычки обязательны
-    # Секреты и настройки — только на runtime, не в Dockerfile.
-    # Compose сам читает корневой .env для подстановки ${VAR}.
+      - "8000:8000"
     environment:
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
       DEBUG: ${DEBUG:-false}
-      LLM_API_KEY: ${LLM_API_KEY}          # обязательно — без него Settings() упадёт
-      # внутри Docker-сети хост qdrant, не localhost (localhost = сам контейнер api)
+      LLM_API_KEY: ${LLM_API_KEY}
+      # существующий контейнер qdrant в mentoring-net (не поднимаем свой на VPS)
       QDRANT_URL: http://qdrant:6333
-      # QDRANT_URL: ${QDRANT_URL}
-    restart: unless-stopped         # если контейнер упал — Docker сам перезапустит (но не если вы остановили его руками)
+    restart: unless-stopped
     networks:
       - mentoring-net
     depends_on:
