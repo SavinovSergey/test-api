@@ -1,7 +1,9 @@
 networks:
   mentoring-net:
     name: mentoring-net
-    external: false
+    # На VPS сеть уже создана (общая для mentoring-сервисов).
+    # Compose не должен пытаться создать её заново.
+    external: true
 
 services:
   app:                              # имя сервиса — то же, что в deploy.yml (compose pull/up api)
