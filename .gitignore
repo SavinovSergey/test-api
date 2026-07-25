@@ -1,3 +1,5 @@
 .env
 **/__pycache__/
 project-env/
+qdrant_data/data/corpus_chunks.jsonl
+data/corpus_chunks.jsonl
