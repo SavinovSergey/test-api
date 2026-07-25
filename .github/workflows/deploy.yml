@@ -62,9 +62,10 @@ jobs:
             cd /opt/mentoring/rag-service
             # Только секреты. Имя модели, base URL, top_k и т.д.
             # — дефолты из app/config.py.
-            cat > .env << 'EOF'
+            cat > .env << EOF
             LLM_API_KEY=${{ secrets.LLM_API_KEY }}
             QDRANT_URL=http://qdrant:6333
             EOF
+            echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
             docker compose pull app
             docker compose up -d app
