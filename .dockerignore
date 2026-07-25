@@ -2,11 +2,15 @@ project-env
 .git
 .github
 .gitignore
+.ipynb_checkpoints
 **/__pycache__/
 *.pyc
-.pytest_cache
+**/.pytest_cache/
 tests
 .env
 .env.*
 README.md
 docker-compose.yml
+**data/**
+screenshots/
+*.ipynb

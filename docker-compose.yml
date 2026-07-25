@@ -1,3 +1,8 @@
+networks:
+  mentoring-net:
+    name: mentoring-net
+    external: false
+
 services:
   api:                              # имя сервиса; если бы добавляли БД, тут была бы вторая запись db:
     build: .                        # собирать из Dockerfile в текущей папке
@@ -5,7 +10,28 @@ services:
     container_name: task-api        # фиксированное имя контейнера, чтобы было удобно адресовать в docker logs/stop
     ports:
       - "8000:8000"                 # слева — порт ноутбука, справа — порт внутри контейнера. Кавычки обязательны
-    environment:                    # переменные окружения для приложения внутри контейнера
-      LOG_LEVEL: ${LOG_LEVEL:-INFO}   # значение из окружения хоста, по умолчанию INFO
+    # Секреты и настройки — только на runtime, не в Dockerfile.
+    # Compose сам читает корневой .env для подстановки ${VAR}.
+    environment:
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
       DEBUG: ${DEBUG:-false}
+      LLM_API_KEY: ${LLM_API_KEY}          # обязательно — без него Settings() упадёт
+      # внутри Docker-сети хост qdrant, не localhost (localhost = сам контейнер api)
+      QDRANT_URL: http://qdrant:6333
+      # QDRANT_URL: ${QDRANT_URL}
     restart: unless-stopped         # если контейнер упал — Docker сам перезапустит (но не если вы остановили его руками)
+    networks:
+      - mentoring-net
+    depends_on:
+      - qdrant
+
+  qdrant:
+    image: qdrant/qdrant:v1.12.1
+    container_name: qdrant
+    ports:
+      - "6333:6333"
+    volumes:
+      - ./qdrant_data:/qdrant/storage
+    networks:
+      - mentoring-net
+    restart: unless-stopped
