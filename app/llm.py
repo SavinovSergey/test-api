@@ -16,4 +16,6 @@ def get_llm() -> ChatOpenAI:
         api_key=settings.llm_api_key,
         model=settings.llm_model,
         temperature=settings.llm_temperature,
+        # DeepSeek V4: thinking по умолчанию включён — отключаем для быстрых ответов.
+        extra_body={"thinking": {"type": "disabled"}},
     )

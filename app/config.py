@@ -11,8 +11,8 @@ class Settings(BaseSettings):
     llm_api_key: str
 
     # LLM provider. Дефолты для OpenRouter; override через .env при смене провайдера.
-    llm_base_url: str = "https://openrouter.ai/api/v1"
-    llm_model: str = "meta-llama/llama-3.3-70b-instruct"
+    llm_base_url: str = "https://api.deepseek.com"
+    llm_model: str = "deepseek-v4-flash"
     llm_temperature: float = 0.0
 
     # Vector store
