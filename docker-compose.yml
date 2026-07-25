@@ -1,7 +1,6 @@
 networks:
   mentoring-net:
     name: mentoring-net
-    # На VPS сеть уже создана (общая для mentoring-сервисов).
     external: true
 
 services:
