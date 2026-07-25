@@ -16,15 +16,18 @@ services:
       LOG_LEVEL: ${LOG_LEVEL:-INFO}
       DEBUG: ${DEBUG:-false}
       LLM_API_KEY: ${LLM_API_KEY}
-      # существующий контейнер qdrant в mentoring-net (не поднимаем свой на VPS)
+      # DNS-имя контейнера qdrant в mentoring-net (общий или локальный)
       QDRANT_URL: http://qdrant:6333
     restart: unless-stopped
     networks:
       - mentoring-net
-    depends_on:
-      - qdrant
+    # depends_on НЕ ставим: на VPS qdrant уже запущен другим стеком.
+    # Ожидание готовности — в deploy.yml (wait на :6333).
 
+  # Только локально: docker compose --profile local up -d
+  # На VPS этот сервис не трогаем — иначе Conflict по имени /qdrant.
   qdrant:
+    profiles: ["local"]
     image: qdrant/qdrant:v1.12.1
     container_name: qdrant
     ports:
@@ -34,3 +37,8 @@ services:
     networks:
       - mentoring-net
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/127.0.0.1/6333'"]
+      interval: 5s
+      timeout: 3s
+      retries: 10

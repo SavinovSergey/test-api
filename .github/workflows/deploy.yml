@@ -67,5 +67,15 @@ jobs:
             QDRANT_URL=http://qdrant:6333
             EOF
             echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+            # Ждём уже запущенный qdrant (не создаём свой — иначе Conflict по имени).
+            for i in $(seq 1 30); do
+              if docker exec qdrant true 2>/dev/null; then
+                echo "qdrant is up"
+                break
+              fi
+              echo "waiting for qdrant... ($i)"
+              sleep 2
+            done
+            docker exec qdrant true
             docker compose pull app
             docker compose up -d app
