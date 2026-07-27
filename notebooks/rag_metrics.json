@@ -1,0 +1,14 @@
+{
+  "n_questions": 22,
+  "model": "deepseek-v4-flash",
+  "embedding_model": "intfloat/multilingual-e5-small",
+  "top_k": 4,
+  "retriever": {
+    "recall_at_4": 1.0,
+    "hits": 22
+  },
+  "generation": {
+    "faithfulness": 0.9396775473330496,
+    "answer_relevancy": 0.9277224606411285
+  }
+}
