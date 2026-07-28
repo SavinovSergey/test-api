@@ -20,8 +20,9 @@ jobs:
         env:
           # Только секрет. Остальное (base URL, model, top_k, эмбеддер) —
           # дефолты из app/config.py, общие для CI / локали / прода.
-          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY | "dummy-for-mocked-tests"}}
           # QDRANT_URL: http://localhost:6333
+          ENABLE_WEB_SEARCH: "false"
 
   deploy:
     needs: test
@@ -78,4 +79,5 @@ jobs:
             done
             docker exec qdrant true
             docker compose pull app
+            docker image prune -f
             docker compose up -d app
