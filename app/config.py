@@ -29,7 +29,7 @@ class Settings(BaseSettings):
     max_iterations: int = 5
     agent_temperature: float = 0.0
     enable_web_search: bool = True
-    agent_max_output_tokens: int = 2000
+    agent_max_output_chars: int = 2000
 
 
 settings = Settings()
